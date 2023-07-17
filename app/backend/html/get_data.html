@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GET DATA</title>
+</head>
+<body>
+    <label for="query">Enter your query</label>
+    <input type="text" id="query">
+    <br>
+    <label for="websites">Select website</label>
+    <select id="websites" name="websites">
+        <option value="kitapyurdu" selected="selected">Kitapyurdu</option>
+        <option value="kitapsepeti">Kitapsepeti</option>
+    </select>
+    <input type="button" value="Search" onclick="getData()">
+    <script>
+        function getData(){
+            var values = document.getElementById("websites");
+            var collection = values.options[values.selectedIndex].value;
+
+            var query = document.getElementById("query").value;
+            if (query === ""){
+                console.log("error")
+            }
+            url = `http://localhost:8000/getData?query=${query}&collection=${collection}`;
+            const status = document.createElement("p")
+            document.body.appendChild(status)
+            fetch(url, {
+                method: "GET"
+            }).then(
+                response => response.json()
+            ).then(
+                data => console.log(data) 
+            ).then(
+                stat => status.textContent = "PLEASE CHECK YOUR BROWSER CONSOLE"
+            )
+        }
+    </script>
+    <p>Search results are currently printed to the console</p>
+    <br>
+    <a href="http://localhost:8000/scrape">GO TO SCRAPING PAGE</a>
+</body>
+</html>

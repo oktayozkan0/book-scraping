@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCRAPE DATA</title>
+</head>
+<body>
+    <input type="text" id="query">
+    <label for="query">Enter your query</label>
+    <input type="button" onclick="scrapeData()" value="Scrape">
+    <fieldset>
+        <legend>Choose Websites</legend>
+        <div>
+          <input type="checkbox" id="kitapsepeti" name="kitapsepeti" checked>
+          <label for="scales">Kitapsepeti</label>
+        </div>
+        <div>
+          <input type="checkbox" id="kitapyurdu" name="kitapyurdu">
+          <label for="horns">Kitapyurdu</label>
+        </div>
+    </fieldset>
+    <script>
+        function scrapeData(){
+            var array = [];
+            var query = document.getElementById("query").value;
+            var checkboxes = document.querySelectorAll('input[type=checkbox]:checked')
+            for (var i = 0; i < checkboxes.length; i++) {
+                 array.push(checkboxes[i].name)
+            };
+            var url = "http://localhost:8000/startScraping"
+            const status = document.createElement("p")
+            document.body.appendChild(status)
+            fetch(url, {
+                method: "POST",
+                headers: {"Content-Type": "application/json"},
+                body: JSON.stringify({
+                    query: query,
+                    websites: array
+                })
+            }).then(
+                response => response.json()
+            ).then(
+                data => status.textContent = "scraping status: " + data.status
+            )
+        }
+    </script>
+    <a href="http://localhost:8000/">GO TO SEARCH PAGE</a>
+</body>
+</html>
