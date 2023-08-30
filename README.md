@@ -1,4 +1,4 @@
-# job-project-scraping
+# book-scraping
  book scraper service with Scrapy and MongoDB
 
 # KURULUM
